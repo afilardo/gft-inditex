@@ -63,3 +63,5 @@ Run PMD:
 ```
 mvn compile pmd:check
 ```
+
+A Postman Collection is provided at: `/docs/postman/`
