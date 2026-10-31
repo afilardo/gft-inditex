@@ -1,0 +1,7 @@
+services:
+  app:
+    image: 'inditex:latest'
+    container_name: app
+    build: .
+    ports:
+      - '8080:8080'

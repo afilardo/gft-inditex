@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show_sql: false
+    database: H2
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
+    initialize: false
