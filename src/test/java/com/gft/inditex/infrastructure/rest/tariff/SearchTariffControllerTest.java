@@ -48,7 +48,7 @@ class SearchTariffControllerTest {
 
     assertDoesNotThrow(() -> {
       SearchTariffRequest request = new SearchTariffRequest(date, productId, brandId);
-      ResponseEntity<TariffResponse> result = controller.searchPrices(request);
+      ResponseEntity<TariffResponse> result = controller.searchTariff(request);
 
       assertNotNull(result);
       assertEquals(response, result.getBody());

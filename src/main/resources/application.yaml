@@ -6,3 +6,8 @@ spring:
     use.path-segment: 1
     supported: 1.0
     default: 1.0
+
+springdoc:
+  swagger-ui:
+    documentTitle: GFT - Inditex API documentation
+    defaultModelsExpandDepth: -1

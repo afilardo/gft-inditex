@@ -36,22 +36,6 @@ public class DateTime {
     }
   }
 
-  public boolean isAfter(DateTime target) {
-    return localDateTime.isAfter(target.localDateTime);
-  }
-
-  public boolean isBefore(DateTime target) {
-    return localDateTime.isBefore(target.localDateTime);
-  }
-
-  public DateTime plusDays(int days) {
-    return new DateTime(localDateTime.plusDays(days));
-  }
-
-  public DateTime minusDays(int days) {
-    return new DateTime(localDateTime.minusDays(days));
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

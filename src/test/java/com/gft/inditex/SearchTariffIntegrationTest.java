@@ -44,6 +44,6 @@ public class SearchTariffIntegrationTest {
 
     assertNotNull(result);
     assertNotNull(result.getResponseBody());
-    assertEquals(tariffId, result.getResponseBody().tariffId().get());
+    assertEquals(tariffId, result.getResponseBody().tariffId());
   }
 }
