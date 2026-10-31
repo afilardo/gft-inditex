@@ -68,4 +68,4 @@ mvn compile pmd:check
 
 A Postman Collection is provided at: `/docs/postman/`
 
-OpenAPI documentation is available at 'http://localhost:8080/swagger-ui/index.html' when the app in running
+OpenAPI documentation is available at `http://localhost:8080/swagger-ui/index.html` when the app in running
