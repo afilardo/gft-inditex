@@ -1,0 +1,57 @@
+{
+  "info": {
+    "_postman_id": "caa00b11-a8e1-426f-b1e5-ea177e0e3b4c",
+    "name": "GFT - Inditex",
+    "description": "### GFT - Inditex Challenge Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59369624",
+    "_collection_link": "https://go.postman.co/collection/59369624-caa00b11-a8e1-426f-b1e5-ea177e0e3b4c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "SearchTariff",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) {\n    const jsonData = pm.response.json();\n    pm.environment.set(\"tariffId\", jsonData.tariffId);\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/api/v1/tariffs?date=2020-06-14T10:00:00&productId=35455&brandId=1",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tariffs"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2020-06-14T10:00:00"
+            },
+            {
+              "key": "productId",
+              "value": "35455"
+            },
+            {
+              "key": "brandId",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Returns the tariff for the given search params."
+      },
+      "response": []
+    }
+  ]
+}
