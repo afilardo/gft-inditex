@@ -11,7 +11,7 @@ The same for the application layer: if we decide to change our business use case
 
 Perhaps it may seem a bit over-engineered solution for this example, but I wanted to provide the solution I would choose in a real-world exercise, and do it the best way possible (you only get one first impression ;))
 
-I have tried to be as strict as possible about not including third-party libraries in the model and application layers (the only exception has been lombok).
+I have tried to be as strict as possible about not including third-party libraries in the model and application layers (the only exception has been `log4j`).
 
 ### Some clarifications
 
@@ -19,6 +19,19 @@ I have tried to be as strict as possible about not including third-party librari
 
 I'm passing the input data directly to the query handler, in raw. I'm aware that SpringBoot offers many validation tools for this, but I prefer to do the validations in the handlers.
 Doing this way, we can manage the validations and the errors as we want (without any framework limitation), and if we decide to change the current web framework or our use case initiator (async message instead of api request, for example), we don't need to update our validations.
+
+#### Database model design
+
+In the instructions some columns are defined as foreign keys. I didn't create those columns as foreign keys because I decided not to create those tables, as weren't necessary for the challenge example.
+For this reason, I defined those columns as Integer, and I added a DB restriction with min value of 0. This validation would not be necessary, because it would be implicitly defined if it were a foreign key.
+
+Also, I added the `version` column, which is used for the concurrency locking. I'm aware that we don't have write operations in this example, but I think it is a good practice to always add it.
+
+#### Repository impl
+
+I decided to use EntityManager instead of JPA API to keep framework libraries out of the domain/application layers.
+I defined the Repository interface in the domain layer, and the impl in the infra layer. JPA API forces us to include some framework dependencies in the interface, which breaks one of the principles of the Hexagonal/DDD approach.
+An alternative could be to create a JPA repository in the infra layer, and include it in the current repo impl, but we will have 3 files and I decided to go on with the EntityManager solution.
 
 ### Final considerations
 
