@@ -3,7 +3,6 @@ package com.gft.inditex.cucumber;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.gft.inditex.infrastructure.rest.tariff.model.TariffResponse;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -12,6 +11,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.client.EntityExchangeResult;
 import org.springframework.test.web.servlet.client.RestTestClient;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 public class TariffSteps {
   private static final String TARIFFS_URI = "/api/v1/tariffs";
@@ -19,7 +20,10 @@ public class TariffSteps {
   @Autowired
   private RestTestClient client;
 
-  private EntityExchangeResult<TariffResponse> response;
+  @Autowired
+  private ObjectMapper objectMapper;
+
+  private EntityExchangeResult<String> response;
 
   @When("I request a tariff for date {string}, product {int}, and brand {int}")
   public void searchTariff(String date, int productId, int brandId) {
@@ -31,7 +35,7 @@ public class TariffSteps {
             .queryParam("brandId", brandId)
             .build())
         .exchange()
-        .returnResult(TariffResponse.class);
+        .returnResult(String.class);
   }
 
   @Then("response code is {int}")
@@ -40,16 +44,16 @@ public class TariffSteps {
   }
 
   @And("the response body contains")
-  public void checkResponseBody(DataTable table) {
-    TariffResponse tariff = response.getResponseBody();
+  public void checkResponseBody(DataTable table) throws Exception {
+    JsonNode json = objectMapper.readTree(response.getResponseBody());
     Map<String, String> expected = table.asMap(String.class, String.class);
 
-    assertNotNull(tariff);
-    assertEquals(Integer.parseInt(expected.get("productId")), tariff.productId());
-    assertEquals(Integer.parseInt(expected.get("brandId")), tariff.brandId());
-    assertEquals(Integer.parseInt(expected.get("tariffId")), tariff.tariffId());
-    assertEquals(expected.get("startDate"), tariff.startDate());
-    assertEquals(expected.get("endDate"), tariff.endDate());
-    assertEquals(expected.get("price"), tariff.price());
+    assertNotNull(json);
+    assertEquals(Integer.parseInt(expected.get("productId")), json.get("productId").asInt());
+    assertEquals(Integer.parseInt(expected.get("brandId")), json.get("brandId").asInt());
+    assertEquals(Integer.parseInt(expected.get("tariffId")), json.get("tariffId").asInt());
+    assertEquals(expected.get("startDate"), json.get("startDate").asString());
+    assertEquals(expected.get("endDate"), json.get("endDate").asString());
+    assertEquals(expected.get("price"), json.get("price").asString());
   }
 }

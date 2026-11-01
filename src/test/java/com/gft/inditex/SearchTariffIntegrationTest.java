@@ -1,5 +1,6 @@
 package com.gft.inditex;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,18 @@ public class SearchTariffIntegrationTest {
         .param("brandId", brandId))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.tariffId").value(tariffId));
+  }
+
+  @Test
+  void searchTariffNotFoundTest() throws Exception {
+    String date = "2020-06-14T10:00:00";
+    String nonExistingProductId = "0";
+    String brandId = "0";
+
+    mockMvc.perform(MockMvcRequestBuilders.get(TARIFFS_URI)
+            .param("date", date)
+            .param("productId", nonExistingProductId)
+            .param("brandId", brandId))
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
 }
